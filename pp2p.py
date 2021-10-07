@@ -1,5 +1,5 @@
-#! /usr/bin/env python
-# -*- encoding: UTF-8 -*-
+# testing use of python 2 and 3
+# python 2.7 here
 
 import qi
 import argparse
@@ -7,19 +7,6 @@ import sys
 import time
 import Image
 
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
-
-
-def process_image(image, emotion=True, size=(224,224)):
-    image = cv2.resize(image, size)
-    print(image.shape)
-    # image = np.transpose(image,(2,0,1))
-    if emotion:
-        prediction = 0
-        return (prediction, image)
-    return image
 
 def main(session):
 
@@ -47,14 +34,7 @@ def main(session):
 
     img = Image.frombytes("RGB", (imageWidth, imageHeight), img_str)
 
-    res = process_image(np.array(img))
-
-    if isinstance(res, tuple):
-        print('prediction:', res[0])
-        res = res[1]
-    
-    cv2.imwrite('probe.jpg', res)
-    plt.imshow(res)
+    img.save("camImage.png", "PNG")
     #raw_input('')
 
     # im.show()
