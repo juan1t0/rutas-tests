@@ -23,17 +23,32 @@ args = Namespace(configuration='multimodalDLforER/configs/embracenet_plus.json',
 				unimodal=False, unimodel=None, unimodels='multimodalDLforER/checkpoints/models/')
 P = Processor(args)
 
+emotions = {'joy':2, 'trust': 2,
+			'anticipation': 1, 'surprise' :1,
+			'sadness':-1, 'fear':-1,
+			'anger':-2, 'disgust': -2}
+#thresholds are set in +3 and -2
+
+def evaluate_emotions(results):
+	emotional_value = 0
+	for idx in range(results['total']):
+		d_emos = results[idx]['emotions']
+		for e in d_emos:
+			emotional_value += emotions[e]
+
+	print('Emotional value:' , emotional_value)
+	os.system('python2 change_behaviour.py --emovalue '+ str(emotional_value))
+
 def process_image(image, emotion=True, size=(224,224)):
 	#image = cv2.resize(image, size)
 	P.Inputfile = image
-	print('a')
+	P.Inputname = image[9:-4]
 	P.start()
-	print('b')
-	#print(image.shape)
-	# image = np.transpose(image,(2,0,1))
-	with open('results'+image[-4]) as f:
-		lines = f.readlines()
-		print(lines)
+
+	with open('results_'+P.Inputname+'.json') as json_res:
+		results = json.load(json_res)
+		print(results)
+		evaluate_emotions(results)
 
 if __name__ == '__main__':
 
@@ -48,14 +63,11 @@ if __name__ == '__main__':
 			#print(img.shape)
 			process_image('captures/'+today +'_'+ str(count)+'.png')
 			count += 1
-			time.sleep(5)
+			time.sleep(8)
 		except:
 			print('error')
 			break
 		if count==11:
 			break
-	
-	#print(img.shape)
-	#plt.imshow(img)
-	#plt.show()
+
 	
