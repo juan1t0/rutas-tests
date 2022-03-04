@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 import time
+import json
 from datetime import date
 
 from multimodalDLforER.processor import Processor
@@ -31,8 +32,10 @@ emotions = {'joy':2, 'trust': 2,
 
 def evaluate_emotions(results):
 	emotional_value = 0
+	print(results)
 	for idx in range(results['total']):
-		d_emos = results[idx]['emotions']
+		d_emos = results[str(idx)]['emotions']
+		print(idx, d_emos)
 		for e in d_emos:
 			emotional_value += emotions[e]
 
@@ -43,11 +46,16 @@ def process_image(image, emotion=True, size=(224,224)):
 	#image = cv2.resize(image, size)
 	P.Inputfile = image
 	P.Inputname = image[9:-4]
+
+	t0 = time.time()
 	P.start()
+	t1 = time.time()
+
+	print ("processing time ", t1 - t0)
 
 	with open('results_'+P.Inputname+'.json') as json_res:
 		results = json.load(json_res)
-		print(results)
+		
 		evaluate_emotions(results)
 
 if __name__ == '__main__':
@@ -63,9 +71,9 @@ if __name__ == '__main__':
 			#print(img.shape)
 			process_image('captures/'+today +'_'+ str(count)+'.png')
 			count += 1
-			time.sleep(8)
+			time.sleep(6)
 		except:
-			print('error')
+			print('Error')
 			break
 		if count==11:
 			break

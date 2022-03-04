@@ -1,6 +1,8 @@
 # testing use of python 2 and 3
 # python 2.7 here
 
+#export PYTHONPATH=$HOME/pynaoqi/pynaoqi-python2.7-2.5.7.1-linux64/lib/python2.7/site-packages:$PYTHONPATH
+
 import qi
 import argparse
 import sys
@@ -9,6 +11,10 @@ from PIL import Image
 
 
 def main(session, name):
+
+    posture_service = session.service("ALRobotPosture")
+    if posture_service.getPosture() != 'Stand' or posture_service.getPosture() != 'StandInit':
+        posture_service.goToPosture("Stand", 0.5)
 
     video_service = session.service("ALVideoDevice")
     resolution = 2    # VGA

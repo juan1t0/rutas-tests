@@ -4,13 +4,13 @@ import sys
 import time
 
 reaction1 = {'status': 'positive', 'img_url': 'https://raw.githubusercontent.com/juan1t0/rutas_probes/main/reaction1.png',
-                'X_': 0.8, 'Y_': 0.0, 'Theta': 0.0,
-                'frequency':0.5, 'time': 5}
+                'X_': 0.5, 'Y_': 0.0, 'Theta': 0.0,
+                'frequency':0.5, 'time': 2}
 reaction2 = {'status': 'neutral', 'img_url': 'https://raw.githubusercontent.com/juan1t0/rutas_probes/main/reaction2.png',
                 'X_': 0.3, 'Y_': 0.0, 'Theta': 0.0,
-                'frequency':0.2, 'time': 8}
+                'frequency':0.2, 'time': 4}
 reaction3 = {'status': 'negative', 'img_url': 'https://raw.githubusercontent.com/juan1t0/rutas_probes/main/reaction3.png',
-                'X_': -0.45, 'Y_': 0.0, 'Theta': 0.0,
+                'X_': -0.5, 'Y_': 0.0, 'Theta': 0.0,
                 'frequency':0.3, 'time': 5}
 
 # thresholds are set in +3 and -2
@@ -21,8 +21,11 @@ def main(session, emotional_value):
     motionService = session.service("ALMotion")
     tabletService = session.service("ALTabletService")
 
-    motion_service.wakeUp()
-    motion_service.setMotionConfig([["ENABLE_FOOT_CONTACT_PROTECTION", True]])
+    motionService.wakeUp()
+    motionService.setMotionConfig([["ENABLE_FOOT_CONTACT_PROTECTION", True]])
+
+    if tabletService.getBrightness() != 1.0:
+        tabletService.setBrightness(1.0)    
 
     if emotional_value <= -2:
         react = reaction3
@@ -32,17 +35,20 @@ def main(session, emotional_value):
         react = reaction1
 
     try:
-        motion_service.moveToward(react['X_'], react['Y_'], react['Theta'],
+        t0 = time.time()
+        motionService.moveToward(react['X_'], react['Y_'], react['Theta'],
                                     [["MaxVelXY", react['frequency']]])
         tabletService.showImageNoCache(react['img_url'])
-        
+        t1 = time.time()
+        print "feeback delay ", t1 - t0
+
         time.sleep(react['time'])
     except Exception, e:
         print "Error was: ", e
 
-    tabletService.hideImage()
-    motion_service.moveToward(0.0, 0.0, 0.0)
-    motion_service.waitUntilMoveIsFinished()
+    # tabletService.hideImage()
+    motionService.moveToward(0.0, 0.0, 0.0)
+    motionService.waitUntilMoveIsFinished()
 
 
 if __name__ == "__main__":
