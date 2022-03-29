@@ -1,7 +1,7 @@
-# testing use of python 2 and 3
-# python 3.4 here
+# python 3.9 here
+# script for orchestrateing the emotional system. DP processing and bahavior changes
 
-#import subprocess
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -28,7 +28,6 @@ emotions = {'joy':2, 'trust': 2,
 			'anticipation': 1, 'surprise' :1,
 			'sadness':-1, 'fear':-1,
 			'anger':-2, 'disgust': -2}
-#thresholds are set in +3 and -2
 
 def evaluate_emotions(results):
 	emotional_value = 0
@@ -43,7 +42,7 @@ def evaluate_emotions(results):
 	os.system('python2 change_behaviour.py --emovalue '+ str(emotional_value))
 
 def process_image(image, emotion=True, size=(224,224)):
-	#image = cv2.resize(image, size)
+
 	P.Inputfile = image
 	P.Inputname = image[9:-4]
 
@@ -60,15 +59,11 @@ def process_image(image, emotion=True, size=(224,224)):
 
 if __name__ == '__main__':
 
-	#script = ["python2", "pp2p.py"]    
-	#process = subprocess.Popen(" ".join(script), shell=True)#, env={"PYTHONPATH": "."})
 	count = 0
 
 	while True:
 		os.system('python2 pp2p2.py --name '+today +'_'+str(count))
 		try:
-			#img = cv2.imread('captures/'+today +'_'+ str(count)+'.png')
-			#print(img.shape)
 			process_image('captures/'+today +'_'+ str(count)+'.png')
 			count += 1
 			#time.sleep(1)

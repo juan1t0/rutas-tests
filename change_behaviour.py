@@ -1,3 +1,6 @@
+# python 2.7 here
+# script for changing robot behavior, showing images and moving
+
 import qi
 import argparse
 import sys
@@ -13,7 +16,6 @@ reaction3 = {'status': 'negative', 'img_url': 'https://raw.githubusercontent.com
                 'X_': -0.5, 'Y_': 0.0, 'Theta': 0.0,
                 'frequency':0.3, 'time': 5}
 
-# thresholds are set in +3 and -2
 threshold_1 = -2
 threshold_2 = 3
 
@@ -46,7 +48,7 @@ def main(session, emotional_value):
     except Exception, e:
         print "Error was: ", e
 
-    # tabletService.hideImage()
+
     motionService.moveToward(0.0, 0.0, 0.0)
     motionService.waitUntilMoveIsFinished()
 

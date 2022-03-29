@@ -1,5 +1,5 @@
-# testing use of python 2 and 3
 # python 2.7 here
+# script for capturing images from robot's camera
 
 #export PYTHONPATH=$HOME/pynaoqi/pynaoqi-python2.7-2.5.7.1-linux64/lib/python2.7/site-packages:$PYTHONPATH
 
@@ -27,7 +27,6 @@ def main(session, name):
 
     t1 = time.time()
 
-    # Time the image transfer.
     print "acquisition delay ", t1 - t0
 
     video_service.unsubscribe(videoClient)
@@ -41,9 +40,7 @@ def main(session, name):
     img = Image.frombytes("RGB", (imageWidth, imageHeight), img_str)
 
     img.save("captures/"+name+'.png', "PNG")
-    #raw_input('')
 
-    # im.show()
     return
 
 if __name__ == "__main__":

@@ -1,38 +1,13 @@
+# python 2.7 here
+# script for recognizing people faces
+
+
 import time
 from naoqi import ALProxy
 import qi
 import argparse
 import sys
 from PIL import Image
-
-
-#IP = "192.168.0.162"
-#PORT = 9559
-#try:
-#    faceProxy = ALProxy("ALFaceDetection", IP, PORT)
-#except Exception, e:
-#    print "Error when creating face detection proxy:"
-#    print str(e)
-#exit(1)
-
-#period = 500
-#faceProxy.subscribe("Test_Face", period, 0.0 )
-
-#memValue = "FaceDetected"
-
-#try:
-#    memoryProxy = ALProxy("ALMemory", IP, PORT)
-#except Exception, e:
-#    print "Error when creating memory proxy:"
-#    print str(e)
-#    exit(1)
-
-#while True: #i in range(0, 2):
-#    time.sleep(0.5)
-#    val = memoryProxy.getData(memValue, 0)
-#    if len(val) > 0:
-#        break
-#faceProxy.unsubscribe("Test_Face")
 
 
 def main(session, name):
@@ -63,7 +38,6 @@ def main(session, name):
 
     t1 = time.time()
 
-    # Time the image transfer.
     print "acquisition delay ", t1 - t0
 
     video_service.unsubscribe(videoClient)
@@ -77,9 +51,7 @@ def main(session, name):
     img = Image.frombytes("RGB", (imageWidth, imageHeight), img_str)
 
     img.save("captures/"+name+'.png', "PNG")
-    #raw_input('')
 
-    # im.show()
     return
 
 if __name__ == "__main__":
