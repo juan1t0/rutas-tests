@@ -65,17 +65,17 @@ if __name__ == '__main__':
 	count = 0
 
 	while True:
-		os.system('python2 pp2p.py --name '+today +'_'+str(count))
+		os.system('python2 pp2p2.py --name '+today +'_'+str(count))
 		try:
 			#img = cv2.imread('captures/'+today +'_'+ str(count)+'.png')
 			#print(img.shape)
 			process_image('captures/'+today +'_'+ str(count)+'.png')
 			count += 1
-			time.sleep(6)
+			#time.sleep(1)
 		except:
 			print('Error')
 			break
-		if count==11:
+		if count==6:
 			break
 
 	
