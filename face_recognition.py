@@ -12,24 +12,26 @@ from PIL import Image
 
 def main(session, name):
 
+    # Set the robot's position to the initial
     posture_service = session.service("ALRobotPosture")
     if posture_service.getPosture() != 'Stand' or posture_service.getPosture() != 'StandInit':
         posture_service.goToPosture("Stand", 0.5)
 
+    # Init the naoqi face recognition service
     face_service = session.service("ALFaceDetection")
     face_service.subscribe("Test_Face", 500, 0.0)
     memoryProxy = session.service("ALMemory")
-    while True:
-        #print "a"
+    while True: # Try to detect faces until get one
         time.sleep(0.5)
         val = memoryProxy.getData("FaceDetected",0)
         if len(val) > 0:
             break
     face_service.unsubscribe("Test_Face")
 
+    # Capture the images
     video_service = session.service("ALVideoDevice")
-    resolution = 2    # VGA
-    colorSpace = 11   # RGB
+    resolution = 2
+    colorSpace = 11
 
     videoClient = video_service.subscribe("python_client", resolution, colorSpace, 5)
 
@@ -42,12 +44,13 @@ def main(session, name):
 
     video_service.unsubscribe(videoClient)
 
-
+    # Read the image as string / bytes from robot's buffer
     imageWidth = naoImage[0]
     imageHeight = naoImage[1]
     array = naoImage[6]
     img_str = str(bytearray(array))
 
+    # Transform and save the image data
     img = Image.frombytes("RGB", (imageWidth, imageHeight), img_str)
 
     img.save("captures/"+name+'.png', "PNG")
@@ -56,7 +59,7 @@ def main(session, name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="192.168.0.162",
+    parser.add_argument("--ip", type=str, default="192.168.0.162", # Change the ip to the robot's one
                         help="Robot IP address. On robot or Local Naoqi: use '127.0.0.1'.")
     parser.add_argument("--port", type=int, default=9559,
                         help="Naoqi port number")
