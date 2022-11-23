@@ -24,5 +24,5 @@ To run this project
 python main.py
 ```
  
-The used deep learning project are available in [google drive shared folder](https://drive.google.com/drive/folders/1NWrEQQWPqf3lH4YC9UMUx6mD_K3qShau?usp=sharing). For more information of this previous work visit [its github page](https://github.com/juan1t0/multimodalDLforER).
+The trained deep learning model are available in [google drive shared folder](https://drive.google.com/drive/folders/1NWrEQQWPqf3lH4YC9UMUx6mD_K3qShau?usp=sharing). For more information of this previous work visit [its github page](https://github.com/juan1t0/multimodalDLforER).
  
