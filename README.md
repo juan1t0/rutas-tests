@@ -7,7 +7,7 @@ The presented implementation consists of an out-robot emotion system. The whole 
  
 ## Installation
  
-Clone the repositories of two projects. Move the `multimodalDLforERto` inside the `rutas-tests` folder
+Clone the repositories of two projects, And move the `multimodalDLforER` folder inside the `rutas-tests` folder
  
 ```bash
 git clone https://github.com/juan1t0/rutas-tests.git
